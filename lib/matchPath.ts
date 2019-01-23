@@ -10,7 +10,7 @@ const cache: {
 } = {};
 
 export interface Options {
-    path: string;
+    path: string | string[];
     exact?: boolean;
     strict?: boolean;
     sensitive?: boolean;
@@ -55,10 +55,10 @@ function compilePath(path: string, options: CompileOptions): CompiledPath {
 /**
  * Public API for matching a URL pathname to a path.
  */
-export function matchPath(pathname: string, options: Options) {
+export function matchPath(pathname: string, options: Options): MatchedPath | null {
     const { path, exact = false, strict = false, sensitive = false } = options;
 
-    const paths: string[] = [path];
+    const paths: string[] = Array.isArray(path) ? path : [path];
 
     return paths.reduce((matched: MatchedPath | null, path: string) => {
         if (matched) return matched;
