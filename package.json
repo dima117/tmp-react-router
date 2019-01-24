@@ -2,22 +2,25 @@
   "name": "tmp-react-router",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "mocha -r ts-node/register test/**/*.test.ts"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dima117/tmp-react-router.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dima117/tmp-react-router/issues"
   },
   "homepage": "https://github.com/dima117/tmp-react-router#readme",
   "dependencies": {
+    "@types/history": "^4.7.2",
+    "@types/qs": "^6.5.1",
+    "@types/redux": "^3.6.0",
     "history": "^4.7.2",
     "path-to-regexp": "^3.0.0",
     "qs": "^6.6.0",
@@ -25,10 +28,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/history": "^4.7.2",
     "@types/mocha": "^5.2.5",
-    "@types/qs": "^6.5.1",
-    "@types/redux": "^3.6.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "ts-node": "^8.0.1",
