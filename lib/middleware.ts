@@ -19,13 +19,14 @@ export const createRoutingMiddleware = (
         return (next: Dispatch) => {
 
             return (action: ReduxAction) => {
+                const result = next(action);
 
                 if (action.type === HISTORY_METHOD_CALLED) {
                     const { url } = action as HistoryMethodCalledAction;
                     history.push(url);
                 }
 
-                return next(action)
+                return result;
             };
         };
     };
