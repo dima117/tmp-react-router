@@ -8,19 +8,19 @@ interface OwnProps {
     href: string;
     target?: string;
     className?: string;
-    onClick?: (event: React.MouseEvent) => void;
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 interface DispatchProps {
     onNavigate: (url: string) => void;
 }
 
-function isModifiedEvent(event: React.MouseEvent) {
+function isModifiedEvent(event: React.MouseEvent<HTMLElement>) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
 class LinkComponent extends React.Component<OwnProps & DispatchProps> {
-    handleClick = (event: React.MouseEvent) => {
+    handleClick = (event: React.MouseEvent<HTMLElement>) => {
         const { target, href, onClick, onNavigate } = this.props;
 
         if (onClick) {
