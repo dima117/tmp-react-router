@@ -54,8 +54,11 @@ class LinkComponent extends React.Component<OwnProps & DispatchProps> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({ 
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     onNavigate: (href: string) => dispatch(callHistoryMethod(href))
 });
 
-export const Link = connect<{}, DispatchProps, OwnProps>(null, mapDispatchToProps)(LinkComponent);
+export const Link = connect<{}, DispatchProps, OwnProps>(
+    null,
+    mapDispatchToProps
+)(LinkComponent);

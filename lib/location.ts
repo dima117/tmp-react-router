@@ -19,11 +19,14 @@ export interface RouterLocation {
     query: object;
 }
 
-export function parseLocation({ routes }: RouterConfig, { pathname, search, hash }: HistoryLocation): RouterLocation {
+export function parseLocation(
+    { routes }: RouterConfig,
+    { pathname, search, hash }: HistoryLocation
+): RouterLocation {
     const query = parse(search);
 
-    let location: RouterLocation | null = Object.keys(routes)
-        .reduce((prev: RouterLocation | null, key: string) => {
+    let location: RouterLocation | null = Object.keys(routes).reduce(
+        (prev: RouterLocation | null, key: string) => {
             if (prev) {
                 return prev;
             }
@@ -32,22 +35,28 @@ export function parseLocation({ routes }: RouterConfig, { pathname, search, hash
                 path: routes[key]
             });
 
-            return matched ? {
-                pathname, 
-                search, 
-                hash,
-                key,
-                params: matched.params,
-                query
-            } : null;
-        }, null);
+            return matched
+                ? {
+                      pathname,
+                      search,
+                      hash,
+                      key,
+                      params: matched.params,
+                      query
+                  }
+                : null;
+        },
+        null
+    );
 
-    return location || {
-        pathname, 
-        search, 
-        hash,
-        key: UNKNOWN_PATH,
-        params: {},
-        query
-    };
+    return (
+        location || {
+            pathname,
+            search,
+            hash,
+            key: UNKNOWN_PATH,
+            params: {},
+            query
+        }
+    );
 }

@@ -11,4 +11,6 @@ export { RouterConfig, RouterLocation, UNKNOWN_PATH } from './location';
 
 export { createRoutingMiddleware } from './middleware';
 
+export { createRoutingReducer } from './reducer';
+
 export { Link } from './components/Link';

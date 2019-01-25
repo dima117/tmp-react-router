@@ -16,16 +16,18 @@ export interface HistoryMethodCalledAction {
     url: string;
 }
 
-export function changeLocation(location: RouterLocation): LocationChangedAction {
+export function changeLocation(
+    location: RouterLocation
+): LocationChangedAction {
     return {
         type: LOCATION_CHANGED,
-        location 
+        location
     };
 }
 
 export function callHistoryMethod(url: string): HistoryMethodCalledAction {
     return {
         type: HISTORY_METHOD_CALLED,
-        url 
+        url
     };
 }

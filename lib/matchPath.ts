@@ -55,7 +55,10 @@ function compilePath(path: string, options: CompileOptions): CompiledPath {
 /**
  * Public API for matching a URL pathname to a path.
  */
-export function matchPath(pathname: string, options: Options): MatchedPath | null {
+export function matchPath(
+    pathname: string,
+    options: Options
+): MatchedPath | null {
     const { path, exact = false, strict = false, sensitive = false } = options;
 
     const paths: string[] = Array.isArray(path) ? path : [path];
