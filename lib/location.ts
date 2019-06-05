@@ -10,13 +10,17 @@ export interface RouterConfig {
     // todo: basePath
 }
 
+export interface Params {
+    [extraProps: string]: string
+}
+
 export interface RouterLocation {
     pathname: string;
     search: string;
     hash: string;
     key: string;
-    params: object;
-    query: object;
+    params: Params;
+    query: Params;
 }
 
 export function parseLocation(
