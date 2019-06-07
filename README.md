@@ -1,5 +1,58 @@
 # tmp-react-router
 
+## Как использовать
+
+### config
+
+Config задает список роутов и алиасы для них. Также вам понадобится экземпляр `history`.
+
+```ts
+import { createBrowserHistory } from 'history';
+import { RouterConfig } from 'tmp-react-router';
+
+const history = createBrowserHistory();
+
+const config: RouterConfig = {
+    routes: {
+        PAGE1: '/p1/:login',
+        PAGE2: '/p2'
+    }
+};
+```
+
+### middleware
+
+```ts
+import { createRoutingMiddleware } from 'tmp-react-router';
+// ...
+const routerMiddleware = createRoutingMiddleware(routerConfig, history);
+// ...
+const store = createStore(rootReducer, routerMiddleware);
+```
+
+Теперь при каждом изменении url будет генериироваться action, который вы можете обрабатывать любым нужным способом. В него приходит информация о новом URL и его параметрах + его alias в конфиге.
+
+### reducer + state
+
+Вы можете подключить готовый редюсер, который будет обрабатывать события изменения URL и класть информацию в state. Также он отвечает за начальное состояние (начальный url).
+
+```ts
+import { RouterLocation, createRoutingReducer } from 'tmp-react-router';
+
+export interface State {
+    location: RouterLocation;
+    // ...
+}
+
+const rootReducer = combineReducers({
+    location: createRoutingReducer(
+        config,  // конфиг роутера
+        history.location // начальный url
+    ),
+    // ...
+});
+```
+
 ## Достоинства
 
 - плоский список роутов
@@ -10,8 +63,13 @@
 ## todo
 
 - [ ] отписка от событий history
-- [ ] base-path
+- [ ] base-path - используйте параметр `basename` в `createBrowserHistory`
 - [ ] exact
+
+## cases
+
+- SSR
+- рендеринг адресов в ссылках, включая basename
 
 ## Подумать
 
