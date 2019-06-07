@@ -31,7 +31,7 @@ export const createRoutingMiddleware = (
 
                 if (action.type === HISTORY_METHOD_CALLED) {
                     const { url } = action as HistoryMethodCalledAction;
-                    history.push(url);
+                    history.push(url); // todo: поддержать остальные методы, кроме push
                 }
 
                 return result;

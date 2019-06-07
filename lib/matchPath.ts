@@ -16,11 +16,15 @@ export interface Options {
     sensitive?: boolean;
 }
 
+export interface Params {
+    [extraProps: string]: string
+}
+
 export interface MatchedPath {
     path: string;
     url: string;
     isExact: boolean;
-    params: { [key: string]: string };
+    params: Params;
 }
 
 interface CompileOptions {

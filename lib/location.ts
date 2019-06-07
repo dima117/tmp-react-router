@@ -1,24 +1,21 @@
 import { Location as HistoryLocation } from 'history';
 import { parse } from 'qs';
 
-import { matchPath } from './matchPath';
+import { matchPath, Params } from './matchPath';
 
+// todo: заменить xxx
 export const UNKNOWN_PATH = '@@xxx/UNKNOWN_PATH';
 
 export interface RouterConfig {
-    routes: { [key: string]: string | string[] };
+    routes: { [key: string]: string };
     // todo: basePath
 }
 
-export interface Params {
-    [extraProps: string]: string
-}
-
 export interface RouterLocation {
+    key: string;
     pathname: string;
     search: string;
     hash: string;
-    key: string;
     params: Params;
     query: Params;
 }

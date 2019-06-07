@@ -1,5 +1,6 @@
 import { RouterLocation } from './location';
 
+// todo: заменить @@xxx
 export const LOCATION_CHANGED = '@@xxx/LOCATION_CHANGED';
 export type LOCATION_CHANGED = typeof LOCATION_CHANGED;
 
