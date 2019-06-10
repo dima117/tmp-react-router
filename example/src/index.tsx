@@ -55,4 +55,4 @@ class TestApplication extends React.Component {
     }
 }
 
-ReactDOM.render(<TestApplication />, document.body);
+ReactDOM.render(<TestApplication />, document.getElementById('root'));

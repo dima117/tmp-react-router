@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 
 module.exports = {
     mode: 'development',
@@ -17,7 +18,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin()],
+    plugins: [new HtmlWebpackPlugin({ favicon: 'favicon.ico' }), new HtmlWebpackRootPlugin()],
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         port: 9000
