@@ -16,6 +16,8 @@ import {
     RouterLocation
 } from 'tmp-react-router';
 
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 // configuration
 const history = createBrowserHistory();
 
@@ -42,7 +44,7 @@ const rootReducer = combineReducers({
 // store
 const store = createStore<AppState, AnyAction, {}, {}>(
     rootReducer,
-    applyMiddleware(routingMiddleware)
+    composeWithDevTools(applyMiddleware(routingMiddleware))
 );
 
 class TestApplication extends React.Component {
