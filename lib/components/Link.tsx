@@ -3,9 +3,11 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import { callHistoryMethod } from '../actions';
+import { Params } from '../matchPath';
+import { RouterConfig } from '..';
+import { generatePath } from '../generatePath';
 
 interface OwnProps {
-    href: string;
     target?: string;
     className?: string;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -19,9 +21,14 @@ function isModifiedEvent(event: React.MouseEvent<HTMLElement>) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
-class LinkComponent extends React.Component<OwnProps & DispatchProps> {
+abstract class BaseLinkComponent<T> extends React.Component<T & OwnProps & DispatchProps> {
+
+    protected abstract getDisplayLink(): string;
+
+    protected abstract getNavigationLink(): string;
+
     handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        const { target, href, onClick, onNavigate } = this.props;
+        const { target, onClick, onNavigate } = this.props;
 
         if (onClick) {
             onClick(event);
@@ -34,17 +41,17 @@ class LinkComponent extends React.Component<OwnProps & DispatchProps> {
             !isModifiedEvent(event) // ignore clicks with modifier keys
         ) {
             event.preventDefault();
-            onNavigate(href);
+            onNavigate(this.getNavigationLink());
         }
     };
 
     render() {
-        const { href, target, className, children } = this.props;
+        const { target, className, children } = this.props;
 
         return (
             <a
                 className={className}
-                href={href}
+                href={this.getDisplayLink()}
                 target={target}
                 onClick={this.handleClick}
             >
@@ -54,11 +61,62 @@ class LinkComponent extends React.Component<OwnProps & DispatchProps> {
     }
 }
 
+interface LinkOwnProps {
+    href: string;
+}
+
+class LinkComponent extends BaseLinkComponent<LinkOwnProps> {
+    protected getDisplayLink(): string {
+        return this.props.href;
+    }
+
+    protected getNavigationLink(): string {
+        return this.props.href;
+    }
+}
+
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     onNavigate: (href: string) => dispatch(callHistoryMethod(href))
 });
 
-export const Link = connect<{}, DispatchProps, OwnProps>(
+export const Link = connect<{}, DispatchProps, LinkOwnProps & OwnProps>(
     null,
     mapDispatchToProps
 )(LinkComponent);
+
+interface AdvancedLinkOwnProps {
+    key: string;
+    params?: Params;
+}
+
+export interface RouterContextData {
+    config?: RouterConfig;
+}
+
+export const RouterContext = React.createContext<RouterContextData>({}); // todo: fix repaint
+
+class AdvancedLinkComponent extends BaseLinkComponent<AdvancedLinkOwnProps> {
+    static contextType = RouterContext;
+
+    context!: React.ContextType<typeof RouterContext>
+
+    protected getDisplayLink(): string {
+        if (!this.context.config) {
+            throw new Error(); // todo: fix
+        }
+
+        const { key, params }  = this.props;
+        const path = this.context.config.routes[key];
+
+        return generatePath(path, params);
+    }
+
+    protected getNavigationLink(): string {
+        return this.getDisplayLink();
+    }
+}
+
+export const AdvancedLink = connect<{}, DispatchProps, AdvancedLinkOwnProps & OwnProps>(
+    null,
+    mapDispatchToProps
+)(AdvancedLinkComponent);
