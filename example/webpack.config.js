@@ -18,7 +18,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({ favicon: 'favicon.ico' }), new HtmlWebpackRootPlugin()],
+    plugins: [new HtmlWebpackPlugin({ favicon: '/favicon.ico' }), new HtmlWebpackRootPlugin()],
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         port: 9000

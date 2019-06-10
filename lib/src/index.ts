@@ -13,4 +13,4 @@ export { createRoutingMiddleware } from './middleware';
 
 export { createRoutingReducer } from './reducer';
 
-export { Link } from './components/Link';
+export { Link, AdvancedLink, RouterContext } from './components/Link';

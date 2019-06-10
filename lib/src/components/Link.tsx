@@ -1,8 +1,7 @@
 import React from 'react';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
-import { callHistoryMethod } from '../actions';
+import { callHistoryMethod, HistoryMethodCalledAction } from '../actions';
 import { Params } from '../matchPath';
 import { RouterConfig } from '..';
 import { generatePath } from '../generatePath';
@@ -11,10 +10,6 @@ interface OwnProps {
     target?: string;
     className?: string;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-}
-
-interface DispatchProps {
-    onNavigate: (url: string) => void;
 }
 
 function isModifiedEvent(event: React.MouseEvent<HTMLElement>) {
@@ -75,17 +70,21 @@ class LinkComponent extends BaseLinkComponent<LinkOwnProps> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-    onNavigate: (href: string) => dispatch(callHistoryMethod(href))
-});
+interface DispatchProps {
+    onNavigate: (url: string) => HistoryMethodCalledAction;
+}
+
+const dispatchProps: DispatchProps = {
+    onNavigate: (href: string): HistoryMethodCalledAction => callHistoryMethod(href)
+}
 
 export const Link = connect<{}, DispatchProps, LinkOwnProps & OwnProps>(
     null,
-    mapDispatchToProps
+    dispatchProps
 )(LinkComponent);
 
 interface AdvancedLinkOwnProps {
-    key: string;
+    routeKey: string;
     params?: Params;
 }
 
@@ -93,7 +92,7 @@ export interface RouterContextData {
     config?: RouterConfig;
 }
 
-export const RouterContext = React.createContext<RouterContextData>({}); // todo: fix repaint
+export const RouterContext = React.createContext<RouterContextData>({});
 
 class AdvancedLinkComponent extends BaseLinkComponent<AdvancedLinkOwnProps> {
     static contextType = RouterContext;
@@ -102,11 +101,11 @@ class AdvancedLinkComponent extends BaseLinkComponent<AdvancedLinkOwnProps> {
 
     protected getDisplayLink(): string {
         if (!this.context.config) {
-            throw new Error(); // todo: fix
+            throw new Error(); // todo: add error info
         }
 
-        const { key, params }  = this.props;
-        const path = this.context.config.routes[key];
+        const { routeKey, params }  = this.props;
+        const path = this.context.config.routes[routeKey];
 
         return generatePath(path, params);
     }
@@ -118,5 +117,5 @@ class AdvancedLinkComponent extends BaseLinkComponent<AdvancedLinkOwnProps> {
 
 export const AdvancedLink = connect<{}, DispatchProps, AdvancedLinkOwnProps & OwnProps>(
     null,
-    mapDispatchToProps
+    dispatchProps
 )(AdvancedLinkComponent);
