@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {createRoutingMiddleware} from 'tmp-react-router';
+
 console.log('test');
 
 class TestApplication extends React.Component {
